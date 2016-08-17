@@ -1,10 +1,14 @@
 'use strict';
 import React from 'react';
 import ReactDOM from 'react-dom';
+/*
+* Accordion component
+* display main info about matches
+*/
 import Accordion from './js/components/accordion/Accordion'
 //-------------------------------CSS/LESS
 import './less/main.less';
-
+import './css/bootstrap.min.css';
 
 (function () {
     const conf = [{

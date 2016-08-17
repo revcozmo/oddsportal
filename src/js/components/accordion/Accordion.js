@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import {Accordion as SafonaAccordion, AccordionItem as SafonaAccordionItem} from 'react-sanfona';
+import Table from './Table';
 
 export default class Accordion extends React.Component {
     createAccordion(pConf) {
@@ -9,20 +10,7 @@ export default class Accordion extends React.Component {
                 {(pItem.type === 'Accordion') ? <SafonaAccordion
                     allowMultiple={true}>
                     {this.createAccordion(pItem.children)}
-                </SafonaAccordion> :
-                    <table>
-                        <tbody>{pItem.children.map((pItem, pIndex) => (
-                            <tr className={(pIndex%2) ? 'accordionItemBodyOdd' : 'accordionItemBodyEven'}
-                                key={pIndex}>
-                                <td>{pItem.time}</td>
-                                <td>{pItem.team1}</td>
-                                <td>{pItem.b1}</td>
-                                <td>{pItem.bX}</td>
-                                <td>{pItem.b2}</td>
-                                <td>{pItem.team2}</td>
-                            </tr>))}
-                        </tbody>
-                    </table>}
+                </SafonaAccordion> : <Table data={pItem.children}/>}
             </SafonaAccordionItem>
         ))}</SafonaAccordion>;
     }
