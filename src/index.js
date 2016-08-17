@@ -10,112 +10,57 @@ import Accordion from './js/components/accordion/Accordion'
 import './css/bootstrap.min.css';
 import './less/main.less';
 
+/*
+-------------------------http://services.eoddsmaker.net/-------------------------
+ <markets DT="GENERATION_DATETIME" CNT="EVENTS_COUNT">
+ <S I="SPORT_ID" N="SPORT_NAME">
+    <C I="REGION_ID" N="REGION_NAME">
+        <L I="LEAGUE_ID" N="LEAGUE_NAME">
+            <E I="EVENT_ID" DT="EVENT_DATETIME" T1="TEAM1_NAME" T2="TEAM2_NAME" T1I="TEAM1_ID" T2I="TEAM2_ID" BKS="NUMBER_OF_BOOKIES" >
+                <M K="MARKET_CODE" N="MARKET_NAME">
+                    <B I="BOOKMAKER_ID" BTDT="BOT_DATE" ISLOCKED="0|1">
+                        <O N="ODD_NAME" V="ODD_VALUE" ISLOCKED="0|1"/>
+                    </B>
+                </M>
+            </E>
+        </L>
+    </C>
+ </S>
+*/
+
+import eoddsmaker from './eoddsmaker_sampleData.json';
 
 (function () {
-    const conf = [{
-        type: "Accordion",
-        title: "EUROPE",
-        className: "accordionItemTitle",
-        children: [{
-            type: "AccordionItem",
-            title: "Champions League - Qualification",
-            className: "accordionItemTitle",
-            children: [{
-                time: "20:45",
-                team1: "Ajax (Ned)",
-                team2: "FK Rostov (Rus)",
-                b1: "3.15",
-                bX: "2.00",
-                b2: "1.59"
-            }, {
-                time: "00:56",
-                team1: "Wisla",
-                team2: "Cracovia",
-                b1: "1.52",
-                bX: "2.67",
-                b2: "6.00"
-            }]
-        },{
-            type: "AccordionItem",
-            title: "222 League - Qualification",
-            className: "accordionItemTitle",
-            children: [{
-                time: "20:45",
-                team1: "Ajax (Ned)",
-                team2: "FK Rostov (Rus)",
-                b1: "3.15",
-                bX: "2.00",
-                b2: "1.59"
-            }, {
-                time: "00:56",
-                team1: "Wisla",
-                team2: "Cracovia",
-                b1: "1.52",
-                bX: "2.67",
-                b2: "6.00"
-            }]
-        }, {
-            type: "AccordionItem",
-            title: "3333 League - Qualification",
-            className: "accordionItemTitle",
-            children: [{
-                time: "20:45",
-                team1: "Ajax (Ned)",
-                team2: "FK Rostov (Rus)",
-                b1: "3.15",
-                bX: "2.00",
-                b2: "1.59"
-            }, {
-                time: "00:56",
-                team1: "Wisla",
-                team2: "Cracovia",
-                b1: "1.52",
-                bX: "2.67",
-                b2: "6.00"
-            }]
-        }]
-    }, {
-        type: "AccordionItem",
-        title: "test_2",
-        className: "accordionItemTitle",
-        children: [{
-            time: "12:56",
-            team1: "XXArsenal",
-            team2: "XXLiverpool",
-            b1: "3.15",
-            bX: "2.00",
-            b2: "1.59"
-        }, {
-            time: "00:56",
-            team1: "XXWisla",
-            team2: "XXCracovia",
-            b1: "1.60",
-            bX: "2.67",
-            b2: "6.00"
-        }]
-    }, {
-        type: "AccordionItem",
-        title: "Last league",
-        className: "accordionItemTitle",
-        children: [{
-            time: "12:56",
-            team1: "XXArsenal",
-            team2: "XXLiverpool",
-            b1: "3.15",
-            bX: "2.00",
-            b2: "1.59"
-        }, {
-            time: "00:56",
-            team1: "XXWisla",
-            team2: "XXCracovia",
-            b1: "1.60",
-            bX: "2.67",
-            b2: "6.00"
-        }]
-    }];
+    var parser = function(pData){
+        return pData.map(function(pItem, pKey){
+            var childs;
+            if (Array.isArray(pItem['C'])){
+                childs = pItem['C'].map(function(pItem, pKey){
+                    return {
+                        id: pItem['@I'],
+                        header: pItem['@N'],
+                        children: []
+                    }
+                });
+            } else {
+                childs = {
+                    id: pItem['C']['@I'],
+                    header: pItem['C']['@N'],
+                    children: []
+                }
+            }
+            return {
+                id: pItem['@I'],
+                header: pItem['@N'],
+                children: childs
+            }
+        });
+    };
 
+    console.log(parser(eoddsmaker.markets.S));
     ReactDOM.render(
-        <Accordion structure={conf}/>,
+        <Accordion data={{}}/>,
         document.getElementById('content')
     );
+
 })();

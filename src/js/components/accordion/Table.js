@@ -4,8 +4,8 @@ import {Table as ReactBootstrapTable} from 'react-bootstrap';
 
 export default class Table extends React.Component {
 
-    onRowClick(){
-        console.log(arguments);
+    onRowClick(pEvent, pId, pReactEvent){
+        console.log(pEvent.currentTarget);
     }
 
     render() {

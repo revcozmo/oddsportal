@@ -1,31 +1,30 @@
 'use strict';
 import React from 'react';
-import {Accordion as SafonaAccordion, AccordionItem as SafonaAccordionItem} from 'react-sanfona';
+import {Accordion as ReactBootstrapAccordion, Panel as ReactBootstrapPanel} from 'react-bootstrap';
 import Table from './Table';
 
 export default class Accordion extends React.Component {
     createAccordion(pConf) {
-        return <SafonaAccordion allowMultiple={true}>{pConf.map((pItem, pIndex, pArr) => (
-            <SafonaAccordionItem key={pIndex} {...pItem}>
-                {(pItem.type === 'Accordion') ? <SafonaAccordion
-                    allowMultiple={true}>
+        return <ReactBootstrapAccordion>{pConf.map((pItem, pIndex, pArr) => (
+            <ReactBootstrapPanel key={pIndex} eventKey={pIndex} {...pItem}>
+                {(pItem.type === 'Accordion') ? <ReactBootstrapAccordion>
                     {this.createAccordion(pItem.children)}
-                </SafonaAccordion> : <Table data={pItem.children}/>}
-            </SafonaAccordionItem>
-        ))}</SafonaAccordion>;
+                </ReactBootstrapAccordion> : <Table data={pItem.children}/>}
+            </ReactBootstrapPanel>
+        ))}</ReactBootstrapAccordion>;
     }
 
     render() {
         return (
-            <div className="mainApp">{this.createAccordion(this.props.structure)}</div>
+            <div className="mainApp">{this.createAccordion(this.props.data)}</div>
         );
     }
 }
 
 Accordion.propTypes = {
-    structure: React.PropTypes.array
+    data: React.PropTypes.array
 };
 
 Accordion.defaultProps = {
-    structure: []
+    data: []
 };
