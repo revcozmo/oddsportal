@@ -27,11 +27,28 @@ import './less/main.less';
     </C>
  </S>
 */
-
 import eoddsmaker from './eoddsmaker_sampleData.json';
 
 (function () {
+
+    /*
+    *
+    *
+    *
+    * Dokończ pisanie parsera
+    * Z: każdy z elementów S, R, L, E jest tablicą obiektów - nawet jeśli jest tylko jeden obiekt to musi on byc w tablicy.
+    * pozwala to na znaczne uproszczenie kodu parsującego
+    *
+    * Choc z drugiej strony jesli jest to kod parsujacy (a raczej z tej biblioteki nie bede korzystal bo płatna i tylko
+    * 15 dni free trial)
+    *
+    * to czy warto się pieprzyc z zalozeniami?
+    * */
     var parser = function(pData){
+        var getEventData = function(pData){
+          return pData;
+        };
+
         return pData.map(function(pItem, pKey){
             var childs;
             if (Array.isArray(pItem['C'])){
@@ -39,14 +56,15 @@ import eoddsmaker from './eoddsmaker_sampleData.json';
                     return {
                         id: pItem['@I'],
                         header: pItem['@N'],
-                        children: []
+                        children: getEventData(pItem.E)
                     }
                 });
             } else {
+                //tylko jeden region -> od razu można dawac eventy
                 childs = {
                     id: pItem['C']['@I'],
                     header: pItem['C']['@N'],
-                    children: []
+                    children: getEventData(pItem['C'].E)
                 }
             }
             return {
@@ -56,7 +74,6 @@ import eoddsmaker from './eoddsmaker_sampleData.json';
             }
         });
     };
-
     console.log(parser(eoddsmaker.markets.S));
     ReactDOM.render(
         <Accordion data={{}}/>,
