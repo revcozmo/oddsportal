@@ -17,7 +17,7 @@ export default class Accordion extends React.Component {
 
     render() {
         return (
-            <div>{this.createAccordion(this.props.structure)}</div>
+            <div className="mainApp">{this.createAccordion(this.props.structure)}</div>
         );
     }
 }

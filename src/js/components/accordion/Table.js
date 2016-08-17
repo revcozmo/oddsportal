@@ -4,7 +4,7 @@ import {Table as ReactBootstrapTable} from 'react-bootstrap';
 
 export default class Table extends React.Component {
 
-    onRowHover(){
+    onRowClick(){
         console.log(arguments);
     }
 
@@ -12,7 +12,7 @@ export default class Table extends React.Component {
         return (
             <ReactBootstrapTable>
                 <tbody>{this.props.data.map((pItem, pIndex) => (
-                    <tr onMouseOver={this.onRowHover} className={(pIndex%2) ? 'accordionItemBodyOdd' : 'accordionItemBodyEven'}
+                    <tr onClick={this.onRowClick} className={(pIndex%2) ? 'accordionItemBodyOdd' : 'accordionItemBodyEven'}
                         key={pIndex}>
                         <td>{pItem.time}</td>
                         <td>{pItem.team1}</td>
