@@ -7,7 +7,7 @@ export default class Accordion extends React.Component {
     createAccordion(pConf) {
         return <ReactBootstrapAccordion>{pConf.map((pItem, pIndex, pArr) => (
             <ReactBootstrapPanel key={pIndex} eventKey={pIndex} {...pItem}>
-                {(pItem.type === 'Accordion') ? <ReactBootstrapAccordion>
+                {(pItem.type !== 'league') ? <ReactBootstrapAccordion>
                     {this.createAccordion(pItem.children)}
                 </ReactBootstrapAccordion> : <Table data={pItem.children}/>}
             </ReactBootstrapPanel>
