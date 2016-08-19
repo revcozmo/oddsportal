@@ -3,7 +3,6 @@ import React from 'react';
 
 export default class Event extends React.Component {
     render() {
-        console.log('Event render');
         return <tr onClick={this.props.onRowClick.bind(this)} className={this.props.className}>
             <td>{this.props.date}</td>
             <td>{this.props.team1}</td>

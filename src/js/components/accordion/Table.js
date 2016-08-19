@@ -70,7 +70,6 @@ export default class Table extends React.Component {
     }
 
     render() {
-        console.log('Table render');
         return ((this.props.type === 'event') ? this.createEventTable() : this.createOddTable());
     }
 }

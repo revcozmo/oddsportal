@@ -9,6 +9,7 @@ import React from 'react';
  XXXX compoent which will be renderen inside app compoent
  </App>
  */
+
 export default React.createClass({
     render() {
         //for main page should use IndexLink insted of Link because parent routes are active when child routes are active.
@@ -17,7 +18,6 @@ export default React.createClass({
 
         //activeStyle - is prop with style which will be aplayed when link is active
         //activeClassName - work same as activeStyle but assign a class ex: "actiClass"
-        console.log('App render');
         return (
             <div>
                 {this.props.children}

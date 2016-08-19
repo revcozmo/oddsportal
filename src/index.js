@@ -30,7 +30,6 @@ import './less/main.less';
  </S>
  */
 import eoddsmaker from './eoddsmaker_sampleData.json';
-
 (function () {
     /*
      * Z: każdy z elementów S, R, L, E jest tablicą obiektów - nawet jeśli jest tylko jeden obiekt to musi on byc w tablicy.
@@ -77,21 +76,21 @@ import eoddsmaker from './eoddsmaker_sampleData.json';
             }
         });
     };
+
     ReactDOM.render(
         <Router history={hashHistory}>
             <Route path="/" component={App}>
-                <IndexRoute component={() => (<Accordion data={parser(eoddsmaker.markets.S)}/>)}/>
-                <Route path="/:sport" component={Accordion}/>
-                <Route path="/:sport/:region" component={Accordion}/>
-                <Route path="/:sport/:region/:league" component={Accordion}/>
-                <Route path="/:sport/:region/:league/:matchID" component={Accordion}/>
+                <IndexRoute data={parser(eoddsmaker.markets.S)} component={Accordion}/>
+                <Route path="/:sport" data={parser(eoddsmaker.markets.S)} component={Accordion}/>
+                <Route path="/:sport/:region" data={parser(eoddsmaker.markets.S)} component={Accordion}/>
+                <Route path="/:sport/:region/:league" data={parser(eoddsmaker.markets.S)} component={Accordion}/>
             </Route>
         </Router>,
         document.getElementById('content')
     );
 })();
 
-// <Accordion data={parser(eoddsmaker.markets.S)}/>
+//<Route path="/:sport/:region/:league/:matchID" component={Accordion}/> - match to już inacxzej zrobiony accordion
 
 /*
  * Postaraj się tym samym komponentem (Accordion) generowac liste eventow jak i liste z kursami
