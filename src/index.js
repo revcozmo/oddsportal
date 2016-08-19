@@ -6,6 +6,8 @@ import ReactDOM from 'react-dom';
  * display main info about matches
  */
 import Accordion from './js/components/accordion/Accordion'
+import App from './js/App'
+import {Router, Route, hashHistory, IndexRoute} from 'react-router';
 //-------------------------------CSS/LESS
 import './css/bootstrap.min.css';
 import './less/main.less';
@@ -46,18 +48,15 @@ import eoddsmaker from './eoddsmaker_sampleData.json';
             return {
                 id: pItem['@I'],
                 header: pItem['@N'],
-                type: 'sport',
                 children: pItem.C.map(function (pItem) {
                     return {
                         id: pItem['@I'],
                         header: pItem['@N'],
-                        type: 'region',
                         children: pItem.L.map(function (pItem) {
                             return {
                                 id: pItem['@I'],
                                 header: pItem['@N'],
-                                type: 'league',
-                                children: pItem.E.map(function (pItem) {
+                                data: pItem.E.map(function (pItem) {
                                     return {
                                         id: pItem['@I'],
                                         type: 'event',
@@ -78,9 +77,30 @@ import eoddsmaker from './eoddsmaker_sampleData.json';
             }
         });
     };
-
     ReactDOM.render(
-        <Accordion data={parser(eoddsmaker.markets.S)}/>,
+        <Router history={hashHistory}>
+            <Route path="/" component={App}>
+                <IndexRoute component={() => (<Accordion data={parser(eoddsmaker.markets.S)}/>)}/>
+                <Route path="/:sport" component={Accordion}/>
+                <Route path="/:sport/:region" component={Accordion}/>
+                <Route path="/:sport/:region/:league" component={Accordion}/>
+                <Route path="/:sport/:region/:league/:matchID" component={Accordion}/>
+            </Route>
+        </Router>,
         document.getElementById('content')
     );
 })();
+
+// <Accordion data={parser(eoddsmaker.markets.S)}/>
+
+/*
+ * Postaraj się tym samym komponentem (Accordion) generowac liste eventow jak i liste z kursami
+ * (mozna w ostatnim zamienic "children" na "data" i pozwoli to wykryc w rekurencji kiedy przerwac)
+ *
+ * nastepnie utworz cos w Table co pozwoli rozroznic czy mamy do czynienia z eventami czy z zakladami
+ * wiadomo ze jesli zakaldy to bedzie potrzebna dla kazdego inna struktura tworzonej tabeli
+ *
+ * jak rozrozniac styl dla komponentu Table zeby wybrac potem odpowidni podkomponent do przekazani propsów??
+ *
+ * wydzielenie parserow do oddzielnego pliku
+ * */

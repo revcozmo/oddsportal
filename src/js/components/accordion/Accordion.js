@@ -7,14 +7,15 @@ export default class Accordion extends React.Component {
     createAccordion(pConf) {
         return <ReactBootstrapAccordion>{pConf.map((pItem, pIndex, pArr) => (
             <ReactBootstrapPanel key={pIndex} eventKey={pIndex} {...pItem}>
-                {(pItem.type !== 'league') ? <ReactBootstrapAccordion>
+                {!(pItem.hasOwnProperty('data')) ? <ReactBootstrapAccordion>
                     {this.createAccordion(pItem.children)}
-                </ReactBootstrapAccordion> : <Table data={pItem.children}/>}
+                </ReactBootstrapAccordion> : <Table type={this.props.type} data={pItem.data}/>}
             </ReactBootstrapPanel>
         ))}</ReactBootstrapAccordion>;
     }
 
     render() {
+        console.log('Accordion render');
         return (
             <div className="mainApp">{this.createAccordion(this.props.data)}</div>
         );
@@ -22,9 +23,11 @@ export default class Accordion extends React.Component {
 }
 
 Accordion.propTypes = {
+    type: React.PropTypes.string.isRequired,
     data: React.PropTypes.array
 };
 
 Accordion.defaultProps = {
+    type: '',
     data: []
 };
